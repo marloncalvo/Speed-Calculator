@@ -1,0 +1,4 @@
+#ignore eclispe files
+.classpath
+.project
+.settings/
