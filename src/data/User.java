@@ -23,13 +23,14 @@ public class User implements Serializable {
 	
 	// User global info
 	private String name;
-	private double max_score_index;
+	private double maxScore;
 		
 	// All session info
 	private LinkedList<Session> sessions;
 	
 	public User(String name) {
 		sessions = new LinkedList<>();
+		maxScore = 0;
 		this.name = name;
 	}
 	
@@ -41,6 +42,14 @@ public class User implements Serializable {
 		}
 		
 		return null;
+	}
+	
+	public void setMaxScore(double maxScore) {
+		this.maxScore = maxScore;
+	}
+	
+	public double getMaxScore() {
+		return maxScore;
 	}
 	
 	public LinkedList<Session> getSessions() {

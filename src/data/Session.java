@@ -76,17 +76,18 @@ public class Session implements Serializable {
 		System.out.print("TOTAL TIME??"  + total_time.getNano());
 		
 		correct_perc = ((double)num_correct/questions.size());
-				
 		avg_timepq = total_time.dividedBy(questions.size());
 		
+		if(score > user.getMaxScore()) {
+			user.setMaxScore(score);
+			Ranking rank = Ranking.getRankings();
+			rank.addEntry(user);
+		}
 		user.getSessions().addFirst(this);
 		
 		try {
 			user.storeUserData();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
