@@ -88,7 +88,6 @@ public class QuestionFrame extends Frame {
 				Duration timeElpased = Duration.between(start, end);
 				question.setUserAnswer(Double.parseDouble(textF_Answer.getText()));
 				question.setTime(timeElpased);
-				System.out.printf("timeel: " + timeElpased.toString());
 				game.isComplete(true);
 			}
 		});

@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import javax.swing.JPanel;
 
-import ft_project.FrameController;
 
 public abstract class Frame {
 	

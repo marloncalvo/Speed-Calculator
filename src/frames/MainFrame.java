@@ -1,22 +1,19 @@
 package frames;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.PlainDocument;
 
-import data.Session;
-import data.User;
 import ft_project.Controller;
+import utils.IntFilter;
+import utils.StringFilter;
 
-import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import javax.swing.JTextPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.SwingConstants;
@@ -98,6 +95,8 @@ public class MainFrame extends Frame{
 		gbc_textF_Name.gridy = 0;
 		InfoPane.add(textF_Name, gbc_textF_Name);
 		textF_Name.setColumns(10);
+		PlainDocument doc3 = (PlainDocument) textF_Name.getDocument();
+	      doc3.setDocumentFilter(new StringFilter());
 		
 		JLabel lblNumberOfProblems = new JLabel("Number of Problems:");
 		GridBagConstraints gbc_lblNumberOfProblems = new GridBagConstraints();
@@ -115,6 +114,8 @@ public class MainFrame extends Frame{
 		gbc_textF_NumProb.gridy = 1;
 		InfoPane.add(textF_NumProb, gbc_textF_NumProb);
 		textF_NumProb.setColumns(10);
+		PlainDocument doc = (PlainDocument) textF_NumProb.getDocument();
+	      doc.setDocumentFilter(new IntFilter());
 		
 		JLabel lblNumberOfDigits = new JLabel("Number of Digits");
 		GridBagConstraints gbc_lblNumberOfDigits = new GridBagConstraints();
@@ -132,6 +133,8 @@ public class MainFrame extends Frame{
 		gbc_textF_NumDig.gridy = 2;
 		InfoPane.add(textF_NumDig, gbc_textF_NumDig);
 		textF_NumDig.setColumns(10);
+		PlainDocument doc2 = (PlainDocument) textF_NumDig.getDocument();
+	      doc2.setDocumentFilter(new IntFilter());
 		
 		JLabel lblTypeOfOperation = new JLabel("Type of Operation:");
 		GridBagConstraints gbc_lblTypeOfOperation = new GridBagConstraints();
@@ -165,7 +168,7 @@ public class MainFrame extends Frame{
 		JButton btnClose = new JButton("Close");
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
+				Controller.closeApplication();
 			}
 		});
 		GridBagConstraints gbc_btnClose = new GridBagConstraints();
@@ -178,7 +181,11 @@ public class MainFrame extends Frame{
 		btnBegin.setActionCommand("loadQuestion");
 		btnBegin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Controller.frameCompleted(frame);
+				if(!isComplete()) {
+					JOptionPane.showMessageDialog(null, "Invalid Input. Please make sure all entries are filled out");
+				}
+				else
+					Controller.frameCompleted(frame);
 			}
 		});
 		GridBagConstraints gbc_btnBegin = new GridBagConstraints();
@@ -197,7 +204,11 @@ public class MainFrame extends Frame{
 	}
 	
 	public boolean isComplete() {
-		return true;
+		if(!textF_Name.getText().trim().isEmpty() && !textF_NumProb.getText().trim().isEmpty()
+				&& !textF_NumDig.getText().trim().isEmpty() && cmbBox_ArithOps.getSelectedIndex() != 0)
+			return true;
+		else
+			return false;
 	}
 	
 	public HashMap<Object, Object> getSessionData() {

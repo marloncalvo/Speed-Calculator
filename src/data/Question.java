@@ -31,8 +31,6 @@ public class Question implements Serializable {
 		else
 			this.op = op.substring(op.indexOf("[") + 1, op.lastIndexOf("]"));
 		
-		System.out.println(this.op);
-		System.out.println(this.op.equalsIgnoreCase("+"));
 		switch(this.op) {
 		case ADD:
 			add();
@@ -77,7 +75,6 @@ public class Question implements Serializable {
 	}
 	
 	public boolean isCorrect() {
-		System.out.println("corr: " + correct_answer + " usr: " + user_answer);
 		if(correct_answer == user_answer)
 			return true;
 		else
@@ -126,7 +123,6 @@ public class Question implements Serializable {
 	
 	private void add() {
 		correct_answer = num1 + num2;
-		System.out.println("HEREADASDASDASDASDS");
 	}
 	
 	private void sub() {

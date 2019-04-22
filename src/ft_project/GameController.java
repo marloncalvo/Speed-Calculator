@@ -19,7 +19,6 @@ public class GameController implements Game {
 	public void init() {
 		for(int i = 0; i < session.getNumOfProblems(); i++) {
 			isComplete = false;
-			System.out.println("i: " + i);
 			Thread t = new Thread(() -> {
 				Frame frame = new QuestionFrame(this, session.generateQuestion());
 				Controller.frameCompleted(frame);
@@ -36,7 +35,6 @@ public class GameController implements Game {
 			}
 			
 			Question question = session.getQuestions().get(i);
-			System.out.println("Num of seconds: " + question.getTime().toNanos());
 		}
 	}
 	

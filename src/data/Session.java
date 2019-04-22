@@ -43,7 +43,7 @@ public class Session implements Serializable {
 	
 	public void compileData() {
 		int consecutive = 0;
-		double base = Math.pow(100, num_digits);
+		double base = 100 * Math.pow(10, num_digits-1);
 		for(Question question : questions) {
 			double mult = 1;
 			
@@ -53,11 +53,13 @@ public class Session implements Serializable {
 				if(consecutive != 0) {
 					mult += .15*consecutive;
 					double toDeduct = Math.pow(.85, question.getTime().getSeconds());
+					System.out.println("Point: " + (base*toDeduct)*mult);
 					score += (base*toDeduct)*mult;
 				}
 				else
 				{
 					double toDeduct = Math.pow(.85, question.getTime().getSeconds());
+					System.out.println("Point: " + (base*toDeduct));
 					score += (base*toDeduct);
 				}
 				
@@ -89,12 +91,10 @@ public class Session implements Serializable {
 		SecureRandom rand = new SecureRandom();
 		
 		int pow = (int)Math.pow(10, num_digits);
-		int digit = pow + 1;
+		int digit = pow - 1;
 		
-		int num1 = rand.nextInt(digit);
-		
-		int num2;
-		num2 = (int) (rand.nextInt(digit))%pow + 1; 
+		int num1 = rand.nextInt(digit) + 1;
+		int num2 = rand.nextInt(digit) + 1; 
 		
 		Question question = new Question(num1, num2, op);
 		questions.add(question);
@@ -140,16 +140,4 @@ public class Session implements Serializable {
 	public String toString() {
 		return sessionName;
 	}
-	
-//	protected Session(double score, int num_problems, int num_digits, int num_correct,
-//			LocalTime total_time, LocalTime avg_timepq, double correct_perc) {
-//		this.score = score;
-//		this.num_problems = num_problems;
-//		this.num_digits = num_digits;
-//		this.num_correct = num_correct;
-//		this.total_time = total_time;
-//		this.avg_timepq = avg_timepq;
-//		this.correct_perc = correct_perc;
-//	}
-
 }

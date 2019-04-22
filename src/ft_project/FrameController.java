@@ -1,7 +1,5 @@
 package ft_project;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 
 public class FrameController extends JFrame{

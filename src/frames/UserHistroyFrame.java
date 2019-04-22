@@ -1,46 +1,28 @@
 package frames;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.JSeparator;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
-import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JScrollPane;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import javax.swing.UIManager;
-import java.awt.CardLayout;
-import java.awt.FlowLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
 
 import data.Question;
 import data.Session;
 import data.User;
 import ft_project.Controller;
-import ft_project.FrameController;
 
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JScrollBar;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

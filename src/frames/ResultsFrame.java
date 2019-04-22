@@ -1,11 +1,6 @@
 package frames;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.util.Date;
 import java.util.HashMap;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -18,9 +13,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.LocalTime;
 import java.awt.event.ActionEvent;
 
 public class ResultsFrame extends Frame {

@@ -1,22 +1,15 @@
 package frames;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.util.HashMap;
-import java.util.Scanner;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import data.Ranking;
-import data.User;
 import ft_project.Controller;
 
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
