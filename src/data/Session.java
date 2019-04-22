@@ -1,6 +1,7 @@
 package data;
 
 import java.time.Duration;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import frames.QuestionFrame;
@@ -12,6 +13,7 @@ public class Session {
 	private int num_problems;
 	private int num_digits;
 	private int num_correct;
+	private String sessionName;
 	private String op;
 	
 	private ArrayList<Question> questions;
@@ -22,6 +24,8 @@ public class Session {
 	private double correct_perc;
 	
 	public Session(User user, int num_problems, int num_digits, String op) {
+		sessionName = user.getName() + " " + LocalTime.now();
+		
 		questions = new ArrayList<>();
 		total_time = Duration.ZERO;
 		this.num_correct = 0;
@@ -33,9 +37,33 @@ public class Session {
 	}
 	
 	public void compileData() {
+		int consecutive = 0;
+		int base = 100;
 		for(Question question : questions) {
-			if(question.isCorrect())
+			double mult = 1;
+			
+			if(!question.isCorrect())
+				consecutive = 0;
+			
+			// make score
+			if(consecutive != 0) {
+				mult += .15*consecutive;
+				System.out.println("mult: " + mult);
+				double toDeduct = Math.pow(.85, question.getTime().getSeconds());
+				System.out.println("dect: " + toDeduct);
+				score += (base*toDeduct)*mult;
+			}
+			else
+			{
+				double toDeduct = Math.pow(.85, question.getTime().getSeconds());
+				score += (base*toDeduct);
+			}
+			
+			
+			if(question.isCorrect()) {
 				num_correct++;
+				consecutive++;
+			}
 			System.out.println("ANothger check for time: " + question.getTime());
 			total_time = total_time.plus(question.getTime());
 		}
@@ -45,6 +73,8 @@ public class Session {
 		correct_perc = ((double)num_correct/questions.size());
 				
 		avg_timepq = total_time.dividedBy(questions.size());
+		
+		user.getSessions().addLast(this);
 	}
 	
 	public Question generateQuestion() {
@@ -82,8 +112,8 @@ public class Session {
 		return score;
 	}
 	
-	public String getUserName() {
-		return user.getName();
+	public User getUser() {
+		return user;
 	}
 	
 	public Duration getAvgTime() {
@@ -96,6 +126,11 @@ public class Session {
 	
 	public int getNumOfProblems() {
 		return num_problems;
+	}
+	
+	@Override
+	public String toString() {
+		return sessionName;
 	}
 	
 //	protected Session(double score, int num_problems, int num_digits, int num_correct,

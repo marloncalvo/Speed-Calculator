@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import data.Session;
+import ft_project.Controller;
 
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -24,12 +25,21 @@ import java.awt.event.ActionEvent;
 
 public class ResultsFrame extends Frame {
 
+	private static Frame frame;
+	
 	private JPanel contentPane;
+	private Session session;
 
 	/**
 	 * Create the frame.
 	 */
-	public ResultsFrame(Session session) {
+	public static Frame createResultsFrame(Session session) {
+		frame = new ResultsFrame(session);
+		return frame;
+	}
+	
+	private ResultsFrame(Session session) {
+		this.session = session;
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		GridBagLayout gbl_contentPane = new GridBagLayout();
@@ -53,7 +63,7 @@ public class ResultsFrame extends Frame {
 		gbc_lblNewLabel.gridy = 1;
 		contentPane.add(lblNewLabel, gbc_lblNewLabel);
 		
-		JLabel lblPlayerName = new JLabel(session.getUserName());
+		JLabel lblPlayerName = new JLabel(session.getUser().getName());
 		GridBagConstraints gbc_lblPlayerName = new GridBagConstraints();
 		gbc_lblPlayerName.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPlayerName.gridx = 2;
@@ -147,6 +157,7 @@ public class ResultsFrame extends Frame {
 		JButton btnFinish = new JButton("Finish");
 		btnFinish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
 			}
 		});
 		GridBagConstraints gbc_btnFinish = new GridBagConstraints();
@@ -156,6 +167,11 @@ public class ResultsFrame extends Frame {
 		contentPane.add(btnFinish, gbc_btnFinish);
 		
 		JButton btnHistory = new JButton("History");
+		btnHistory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Controller.frameCompleted(frame);
+			}
+		});
 		GridBagConstraints gbc_btnHistory = new GridBagConstraints();
 		gbc_btnHistory.gridx = 3;
 		gbc_btnHistory.gridy = 9;
@@ -183,6 +199,7 @@ public class ResultsFrame extends Frame {
 	
 	public  HashMap<Object, Object> getSessionData() {
 		HashMap<Object, Object> data = new HashMap<>();
+		data.put("user", session.getUser());
 		return data;
 	}
 

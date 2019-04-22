@@ -15,6 +15,7 @@ import frames.Frame;
 import frames.MainFrame;
 import frames.QuestionFrame;
 import frames.ResultsFrame;
+import frames.UserHistroyFrame;
 
 public class Controller {
 	
@@ -33,7 +34,6 @@ public class Controller {
 				switchFrame(MainFrame.createMainFrame());
 			}
 		});
-		
 	}
 	
 	public static void frameCompleted(Frame frame) {
@@ -93,11 +93,13 @@ public class Controller {
 			e.printStackTrace();
 		}
 		
-		switchFrame(new ResultsFrame(session));
+		switchFrame(ResultsFrame.createResultsFrame(session));
 	}
 	
-	private static void QuestionFrame(Frame frame) {
-		System.out.println("FUK U\n");
+	private static void ResultsFrame(Frame frame) {
+		HashMap<Object, Object> data = frame.getSessionData();
+		
+		switchFrame(UserHistroyFrame.createUserHistoryFrame((User) data.get("user")));
 	}
 	
 	public static void switchFrame(Frame frame)  {
