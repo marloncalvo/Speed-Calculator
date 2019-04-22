@@ -41,7 +41,7 @@ public class Ranking {
 		
 		String newLine = user.getName() + " " + user.getMaxScore(), 
 				formerSpotKey = "";
-		boolean mismatchedLocation = true;
+		boolean indexFound = true, requiresChange = true;
 
 		if(data.containsKey(user.getName())) {
 
@@ -53,13 +53,15 @@ public class Ranking {
 					// if the location is the user's old high score
 					if(entry.getKey().equals(user.getName())) {
 						data.replace(entry.getKey(), user.getMaxScore());
-						mismatchedLocation = false;
+						indexFound = true;
+						requiresChange = false;
 						break;
 					}
 					
 					// if it is another user high score
 					else {
 						formerSpotKey = entry.getKey();
+						indexFound = true;
 						break;
 					}
 				}
@@ -69,11 +71,10 @@ public class Ranking {
 			for(Map.Entry<String, Double> entry : data.entrySet()) {
 				if(entry.getValue() < user.getMaxScore()) {
 					formerSpotKey = entry.getKey();
+					indexFound = true;
 					break;
 				}
 			}
-			
-			mismatchedLocation = false;
 		}
 		
 		PrintWriter write = null;
@@ -86,15 +87,20 @@ public class Ranking {
 		write.println("#Rankings List for Arith Helper - Author: Marlon Calvo");
 		
 		int j = 0;
-		boolean isPrinted = false;
-		if(!mismatchedLocation) {
-			isPrinted = true;
+		
+		// could be that it was not found in hashmap, or that it simply replaced old value
+		if(!indexFound || !requiresChange) {
 			for(Map.Entry<String, Double> entry : data.entrySet()) {
 				write.println(entry.getKey() + " " + entry.getValue());
 				j++;
 			}
+			
+			if(!indexFound && j < TOP)
+				write.println(newLine);
 		}
 		else {
+			
+			boolean isPrinted = false;
 			for(Map.Entry<String, Double> entry : data.entrySet()) {
 				if(j >= TOP)
 					break;
@@ -113,14 +119,13 @@ public class Ranking {
 				write.println(entry.getKey() + " " + entry.getValue());
 				j++;
 			}
+			
+			if(j < TOP && !isPrinted)
+				write.println(newLine);
 		}
 		
 		System.out.println("j: " + j + " TOP:" + TOP);
 		System.out.println(j < TOP);
-		if(j < TOP && !isPrinted)
-			write.println(newLine);
-		
-
 		
 		write.close();
 		loadData();
