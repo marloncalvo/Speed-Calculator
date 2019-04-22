@@ -157,7 +157,7 @@ public class ResultsFrame extends Frame {
 		JButton btnFinish = new JButton("Finish");
 		btnFinish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
+				Controller.closeApplication();
 			}
 		});
 		GridBagConstraints gbc_btnFinish = new GridBagConstraints();

@@ -1,20 +1,19 @@
 package ft_project;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.HashMap;
 
-import data.Question;
+import javax.swing.WindowConstants;
+
 import data.Session;
 import data.User;
 import frames.Frame;
 import frames.MainFrame;
-import frames.QuestionFrame;
+import frames.RankingFrame;
 import frames.ResultsFrame;
 import frames.UserHistroyFrame;
 import utils.FileUtils;
@@ -31,9 +30,10 @@ public class Controller {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				frameController = FrameController.getFrameController();
+				frameController.setSize(new Dimension(600, 400));
 				switchFrame(MainFrame.createMainFrame());
+				frameController.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			}
 		});
 	}
@@ -47,7 +47,6 @@ public class Controller {
 			ma.invoke(Controller.class, frame);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -62,7 +61,6 @@ public class Controller {
 			try {
 				user = User.readUserData(name);
 			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -80,7 +78,7 @@ public class Controller {
 	}
 	
 	private static void initGame(Frame frame, Session session) {
-		GameController gm = GameController.getGameController(session);
+		GameController gm = new GameController(session);
 		Thread t = new Thread(() -> {
 			gm.init();
 		});
@@ -90,7 +88,6 @@ public class Controller {
 		try {
 			t.join();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return;
 		}
@@ -104,22 +101,47 @@ public class Controller {
 		try {
 			load.join();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		switchFrame(ResultsFrame.createResultsFrame(session));
 	}
 	
+	@SuppressWarnings("unused")
+	private static void QuestionFrame(Frame frame) {
+		switchFrame(frame);
+	}
+	
+	@SuppressWarnings("unused")
 	private static void ResultsFrame(Frame frame) {
 		HashMap<Object, Object> data = frame.getSessionData();
 		
 		switchFrame(UserHistroyFrame.createUserHistoryFrame((User) data.get("user")));
 	}
+
+	@SuppressWarnings("unused")
+	private static void UserHistroyFrame(Frame frame) {
+		HashMap<Object, Object> data = frame.getSessionData();
+
+		if((int)data.get("toLoad") == UserHistroyFrame.MAIN)
+			switchFrame(MainFrame.createMainFrame());
+		else
+			switchFrame(RankingFrame.createRankingFrame());
+	}
+
+	@SuppressWarnings("unused")
+	private static void RankingFrame(Frame frame) {
+		switchFrame(MainFrame.createMainFrame());
+	}
 	
-	public static void switchFrame(Frame frame)  {
+	private static void switchFrame(Frame frame)  {
 		frameController.setContentPane(frame.getContentPane());
 		frameController.repaint();
 	    frameController.revalidate(); 
+	}
+	
+	public static void closeApplication() {
+		frameController.dispose();
+		System.exit(0);
 	}
 }

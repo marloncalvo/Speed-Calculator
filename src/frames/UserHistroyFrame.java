@@ -34,6 +34,7 @@ import com.jgoodies.forms.layout.RowSpec;
 import data.Question;
 import data.Session;
 import data.User;
+import ft_project.Controller;
 import ft_project.FrameController;
 
 import javax.swing.GroupLayout;
@@ -45,12 +46,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class UserHistroyFrame extends Frame {
+	public static final int MAIN = 1;
+	public static final int LEADERBOARD = 2;
 
 	private static Frame frame;
 	
 	private JPanel contentPane;
 	private JTable table;
 	private DefaultTableModel model;
+	private int toLoad = MAIN;
 	
 	public static Frame createUserHistoryFrame(User user) {
 		frame = new UserHistroyFrame(user);
@@ -99,10 +103,22 @@ public class UserHistroyFrame extends Frame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("Main Screen");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				toLoad = MAIN;
+				Controller.frameCompleted(frame);
+			}
+		});
 		panel.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("New button");
+		JButton btnNewButton_1 = new JButton("Leaderboards");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				toLoad = LEADERBOARD;
+				Controller.frameCompleted(frame);
+			}
+		});
 		panel.add(btnNewButton_1);
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.PAGE_AXIS));
 		panel_2.add(lblNewLabel);
@@ -156,7 +172,9 @@ public class UserHistroyFrame extends Frame {
 
 	@Override
 	public HashMap<Object, Object> getSessionData() {
-		// TODO Auto-generated method stub
-		return null;
+		HashMap<Object, Object> data = new HashMap<>();
+		data.put("toLoad", toLoad);
+		
+		return data;
 	}
 }

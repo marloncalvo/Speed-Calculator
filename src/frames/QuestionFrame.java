@@ -5,7 +5,6 @@ import javax.swing.border.EmptyBorder;
 
 import data.Question;
 import ft_project.Game;
-import ft_project.GameController;
 
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -37,10 +36,8 @@ public class QuestionFrame extends Frame {
 	/**
 	 * Create the frame.
 	 */
-	public QuestionFrame(Question question) {
+	public QuestionFrame(Game game, Question question) {
 		isComplete = false;
-		
-		Game game = GameController.getGameController();
 				
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

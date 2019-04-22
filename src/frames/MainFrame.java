@@ -178,12 +178,6 @@ public class MainFrame extends Frame{
 		btnBegin.setActionCommand("loadQuestion");
 		btnBegin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MainPane.setVisible(false);
-				User user = new User(textF_Name.getText());
-				/*Session session = new Session(user, Integer.parseInt(textF_NumProb.getText()), 
-						Integer.parseInt(textF_NumDig.getText()), cmbBox_ArithOps.getSelectedItem().toString()); */
-				//session.startGame();
-				
 				Controller.frameCompleted(frame);
 			}
 		});

@@ -43,38 +43,31 @@ public class Session implements Serializable {
 	
 	public void compileData() {
 		int consecutive = 0;
-		int base = 100;
+		double base = Math.pow(100, num_digits);
 		for(Question question : questions) {
 			double mult = 1;
 			
 			if(!question.isCorrect())
 				consecutive = 0;
-			
-			// make score
-			if(consecutive != 0) {
-				mult += .15*consecutive;
-				System.out.println("mult: " + mult);
-				double toDeduct = Math.pow(.85, question.getTime().getSeconds());
-				System.out.println("dect: " + toDeduct);
-				score += (base*toDeduct)*mult;
-			}
-			else
-			{
-				double toDeduct = Math.pow(.85, question.getTime().getSeconds());
-				score += (base*toDeduct);
-			}
-			
-			
-			if(question.isCorrect()) {
+			else {
+				if(consecutive != 0) {
+					mult += .15*consecutive;
+					double toDeduct = Math.pow(.85, question.getTime().getSeconds());
+					score += (base*toDeduct)*mult;
+				}
+				else
+				{
+					double toDeduct = Math.pow(.85, question.getTime().getSeconds());
+					score += (base*toDeduct);
+				}
+				
 				num_correct++;
 				consecutive++;
 			}
-			System.out.println("ANothger check for time: " + question.getTime());
+			
 			total_time = total_time.plus(question.getTime());
 		}
-		
-		System.out.print("TOTAL TIME??"  + total_time.getNano());
-		
+				
 		correct_perc = ((double)num_correct/questions.size());
 		avg_timepq = total_time.dividedBy(questions.size());
 		
@@ -88,7 +81,6 @@ public class Session implements Serializable {
 		try {
 			user.storeUserData();
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

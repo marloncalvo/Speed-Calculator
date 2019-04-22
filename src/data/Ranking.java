@@ -3,6 +3,8 @@ package data;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -153,5 +155,18 @@ public class Ranking {
 		}
 		
 		scan.close();
+	}
+	
+	@Override
+	public String toString() {
+		String l = "";
+		
+		loadData();
+		DecimalFormat df = new DecimalFormat("##.##");
+		df.setRoundingMode(RoundingMode.DOWN);
+		for(Map.Entry<String, Double> entry : data.entrySet())
+			l += entry.getKey() + " " + df.format(entry.getValue()) + "\n";
+		
+		return l.trim();
 	}
 }
