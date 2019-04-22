@@ -1,6 +1,7 @@
 package ft_project;
 
 import java.awt.EventQueue;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -16,6 +17,7 @@ import frames.MainFrame;
 import frames.QuestionFrame;
 import frames.ResultsFrame;
 import frames.UserHistroyFrame;
+import utils.FileUtils;
 
 public class Controller {
 	
@@ -53,8 +55,21 @@ public class Controller {
 	@SuppressWarnings("unused")
 	private static void MainFrame(Frame frame) {
 		HashMap<Object, Object> data = frame.getSessionData();
-		System.out.println("Name: " + data.get("name"));
-		User user = new User((String) data.get("name"));
+		String name = (String) data.get("name");
+		
+		User user = null;
+		if(FileUtils.checkFileExists(User.getUserLocation(name))) {
+			try {
+				user = User.readUserData(name);
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else {
+			user = new User(name);
+		}
+		
 		Session session = new Session(user, Integer.valueOf((String) data.get("num_problems")), Integer.valueOf((String)data.get("num_digits")), (String)data.get("op"));
 		Thread t = new Thread(() -> {
 			initGame(frame, session);

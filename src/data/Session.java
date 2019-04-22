@@ -4,11 +4,16 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-import frames.QuestionFrame;
-
+import java.io.IOException;
+import java.io.Serializable;
 import java.security.SecureRandom;
 
-public class Session {
+public class Session implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private User user;
 	private int num_problems;
 	private int num_digits;
@@ -74,7 +79,17 @@ public class Session {
 				
 		avg_timepq = total_time.dividedBy(questions.size());
 		
-		user.getSessions().addLast(this);
+		user.getSessions().addFirst(this);
+		
+		try {
+			user.storeUserData();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public Question generateQuestion() {

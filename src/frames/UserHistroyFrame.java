@@ -124,8 +124,8 @@ public class UserHistroyFrame extends Frame {
 			mdl.addElement(s.toString());
 		}
 		comboBox.setModel(mdl);
-		comboBox.setSelectedItem(user.getSessions().getLast());
-		addQuestionsToTable(user.getSessions().getLast().getQuestions());
+		comboBox.setSelectedIndex(0);
+		addQuestionsToTable(user.getSessions().getFirst().getQuestions());
 		
 		panel_3.add(comboBox);
 		panel_2.add(separator);

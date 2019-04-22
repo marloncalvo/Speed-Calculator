@@ -1,9 +1,16 @@
 package data;
 
+import java.io.Serializable;
 import java.security.SecureRandom;
 import java.time.Duration;
 
-public class Question {
+public class Question implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
 	private int num1;
 	private int num2;
 	private double correct_answer;
