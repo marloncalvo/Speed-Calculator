@@ -77,6 +77,14 @@ public class Question {
 			return false;
 	}
 	
+	public double getUserAnswer() {
+		return user_answer;
+	}
+	
+	public double getCorrectAnswer() {
+		return correct_answer;
+	}
+	
 	private void doRandom() {
 		SecureRandom rand = new SecureRandom();
 		int n = rand.nextInt(4);

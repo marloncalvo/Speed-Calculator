@@ -2,6 +2,7 @@ package frames;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
@@ -30,6 +31,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
+import data.Question;
 import data.Session;
 import data.User;
 import ft_project.FrameController;
@@ -39,6 +41,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JScrollBar;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class UserHistroyFrame extends Frame {
 
@@ -108,14 +112,20 @@ public class UserHistroyFrame extends Frame {
 		panel_2.add(panel_3);
 		panel_3.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JComboBox<Session> comboBox = new JComboBox<Session>();
-		DefaultComboBoxModel<Session> mdl = new DefaultComboBoxModel<Session>();
+		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Session session = user.getSession(comboBox.getSelectedItem().toString());
+				addQuestionsToTable(session.getQuestions());
+			}
+		});
+		DefaultComboBoxModel<String> mdl = new DefaultComboBoxModel<String>();
 		for(Session s : user.getSessions()) {
-			mdl.addElement(s);
+			mdl.addElement(s.toString());
 		}
 		comboBox.setModel(mdl);
 		comboBox.setSelectedItem(user.getSessions().getLast());
-		
+		addQuestionsToTable(user.getSessions().getLast().getQuestions());
 		
 		panel_3.add(comboBox);
 		panel_2.add(separator);
@@ -123,8 +133,12 @@ public class UserHistroyFrame extends Frame {
 		panel_2.add(panel);
 	}
 	
-	public void addRowToTable(Object[] obj) {
-		model.addRow(obj);
+	private void addQuestionsToTable(ArrayList<Question> questions) {
+		model.setRowCount(0);
+		for(Question q : questions) {
+			model.addRow(new Object[] {(model.getRowCount()+1), q.getNum1(), q.getArithOp(), q.getNum2(), q.getCorrectAnswer(), q.getUserAnswer(), q.getTime()});
+		}
+		
 		table.setModel(model);
 	}
 
@@ -145,5 +159,4 @@ public class UserHistroyFrame extends Frame {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
