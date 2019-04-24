@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data.Session;
@@ -21,6 +22,7 @@ import utils.FileUtils;
 public class Controller {
 	
 	private static FrameController frameController;
+	private JPanel mainPane;
 	
 	public static void main(String[] args) {
 		init();
@@ -33,7 +35,7 @@ public class Controller {
 				frameController = FrameController.getFrameController();
 				frameController.setSize(new Dimension(600, 400));
 				switchFrame(MainFrame.createMainFrame());
-				frameController.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+				frameController.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			}
 		});
 	}
@@ -43,8 +45,8 @@ public class Controller {
 		String frameName = frame.getClass().getName();
 		frameName = frameName.replace("frames.", "");
 		try {
-			Method ma = Controller.class.getDeclaredMethod(frameName, Frame.class);
-			ma.invoke(Controller.class, frame);
+			Method m = Controller.class.getDeclaredMethod(frameName, Frame.class);
+			m.invoke(Controller.class, frame);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();

@@ -1,6 +1,5 @@
 package ft_project;
 
-import data.Question;
 import data.Session;
 import frames.Frame;
 import frames.QuestionFrame;
@@ -32,9 +31,7 @@ public class GameController implements Game {
 					Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}
-			
-			Question question = session.getQuestions().get(i);
+			}			
 		}
 	}
 	

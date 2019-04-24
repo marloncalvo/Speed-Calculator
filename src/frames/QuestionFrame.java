@@ -5,6 +5,8 @@ import javax.swing.border.EmptyBorder;
 
 import data.Question;
 import ft_project.Game;
+import utils.IntFilter;
+import utils.NumberUtils;
 
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -31,12 +33,15 @@ public class QuestionFrame extends Frame {
 	private JPanel contentPane;
 	private JTextField textF_Answer;
 	
+	private Question question;
+	
 	private boolean isComplete = false;
 
 	/**
 	 * Create the frame.
 	 */
 	public QuestionFrame(Game game, Question question) {
+		this.question = question;
 		isComplete = false;
 				
 		contentPane = new JPanel();
@@ -70,6 +75,9 @@ public class QuestionFrame extends Frame {
 		contentPane.add(lblNum2, gbc_lblNum2);
 		
 		textF_Answer = new JTextField();
+		int temp = getAnswerBoxSize();
+		System.out.println(temp);
+		IntFilter.setIntFilter(textF_Answer, temp, IntFilter.NEGATIVES);
 		GridBagConstraints gbc_textF_Answer = new GridBagConstraints();
 		gbc_textF_Answer.insets = new Insets(0, 0, 5, 0);
 		gbc_textF_Answer.fill = GridBagConstraints.HORIZONTAL;
@@ -80,22 +88,34 @@ public class QuestionFrame extends Frame {
 		
 		btnSubmit = new JButton("Submit");
 		
+		GridBagConstraints gbc_btnSubmit = new GridBagConstraints();
+		gbc_btnSubmit.gridx = 0;
+		gbc_btnSubmit.gridy = 4;
+		contentPane.add(btnSubmit, gbc_btnSubmit);
+		
 		Instant start = Instant.now();
 		btnSubmit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Instant end = Instant.now();
 				Duration timeElpased = Duration.between(start, end);
-				question.setUserAnswer(Double.parseDouble(textF_Answer.getText()));
+				question.setUserAnswer(Long.parseLong(textF_Answer.getText()));
 				question.setTime(timeElpased);
 				game.isComplete(true);
 			}
 		});
-		
-		GridBagConstraints gbc_btnSubmit = new GridBagConstraints();
-		gbc_btnSubmit.gridx = 0;
-		gbc_btnSubmit.gridy = 4;
-		contentPane.add(btnSubmit, gbc_btnSubmit);
+	}
+	
+	private int getAnswerBoxSize() {
+		final int EXTRA_DIGIT_MIN = 2;
+		final int EXTRA_DIGIT_MAX = 4;
+
+		System.out.println(NumberUtils.numberOfDigits(question.getCorrectAnswer()));
+		int b = NumberUtils.numberOfDigits(question.getCorrectAnswer())
+				+ NumberUtils.generateRandomInt(EXTRA_DIGIT_MIN, EXTRA_DIGIT_MAX);
+		System.out.println(b);
+		return NumberUtils.maxValue((NumberUtils.numberOfDigits(question.getNum1())), 
+							(b));
 	}
 	
 	public JPanel getContentPane() {

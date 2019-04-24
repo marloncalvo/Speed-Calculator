@@ -1,6 +1,5 @@
 package data;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,6 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.LinkedList;
+
+import utils.FileUtils;
 
 public class User implements Serializable {
 	
@@ -68,11 +69,7 @@ public class User implements Serializable {
 			  throws IOException, ClassNotFoundException {
 		System.out.println("WRITING");
 
-		File file = new File(SAVE_LOC + name + USER_EXT);
-		if(!file.getParentFile().exists())
-			file.getParentFile().mkdir();
-		file.createNewFile();
-	    FileOutputStream fileOutputStream = new FileOutputStream(SAVE_LOC + name + USER_EXT);
+	    FileOutputStream fileOutputStream = new FileOutputStream(FileUtils.makeFile(getUserLocation(name)));
 	    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
 	    objectOutputStream.writeObject(this);
 	    objectOutputStream.flush();
@@ -82,7 +79,7 @@ public class User implements Serializable {
 	public static User readUserData(String name) 
 			throws IOException, ClassNotFoundException {
 		System.out.println("READING");
-		FileInputStream fileInputStream = new FileInputStream(SAVE_LOC + name + USER_EXT);
+		FileInputStream fileInputStream = new FileInputStream(getUserLocation(name));
 	    ObjectInputStream objectInputStream
 	      = new ObjectInputStream(fileInputStream);
 	    User user = (User) objectInputStream.readObject();

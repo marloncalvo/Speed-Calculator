@@ -9,9 +9,7 @@ import java.io.Serializable;
 import java.security.SecureRandom;
 
 public class Session implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	
 	private User user;
@@ -43,23 +41,32 @@ public class Session implements Serializable {
 	
 	public void compileData() {
 		int consecutive = 0;
-		double base = 100 * Math.pow(10, num_digits-1);
+		double difficulty = Math.pow(10, num_digits-1);
+		
+		final int BASE_SCORE = 100;
+		final double BASE_MULTIPLIER = 2.5;
+		final double CONS_MULTIPLER = .15;
+		final double TIME_MULTIPLIER = .85;
+		
+		// compile data for each question
 		for(Question question : questions) {
 			double mult = 1;
+			double base = BASE_SCORE * difficulty;
+
+			if(question.isMul() || question.isDiv())
+				base *= BASE_MULTIPLIER;
 			
 			if(!question.isCorrect())
 				consecutive = 0;
 			else {
 				if(consecutive != 0) {
-					mult += .15*consecutive;
-					double toDeduct = Math.pow(.85, question.getTime().getSeconds());
-					System.out.println("Point: " + (base*toDeduct)*mult);
+					mult += CONS_MULTIPLER*consecutive;
+					double toDeduct = Math.pow(TIME_MULTIPLIER, question.getTime().getSeconds());
 					score += (base*toDeduct)*mult;
 				}
 				else
 				{
-					double toDeduct = Math.pow(.85, question.getTime().getSeconds());
-					System.out.println("Point: " + (base*toDeduct));
+					double toDeduct = Math.pow(TIME_MULTIPLIER, question.getTime().getSeconds());
 					score += (base*toDeduct);
 				}
 				
@@ -69,11 +76,18 @@ public class Session implements Serializable {
 			
 			total_time = total_time.plus(question.getTime());
 		}
-				
+		
+		
+		// run statistics
 		correct_perc = ((double)num_correct/questions.size());
 		avg_timepq = total_time.dividedBy(questions.size());
 		
+		saveData();
+	}
+	
+	private void saveData() {
 		if(score > user.getMaxScore()) {
+			System.out.println("test: true");
 			user.setMaxScore(score);
 			Ranking rank = Ranking.getRankings();
 			rank.addEntry(user);

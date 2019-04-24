@@ -1,11 +1,35 @@
 package utils;
 
+import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
+import javax.swing.text.PlainDocument;
 
-public class StringFilter extends DocumentFilter {
+public class StringFilter extends DocumentFilter implements Filter {
+	
+	   private JTextField textField;
+	   private boolean showToolTip;
+	   
+	   public static void setStringFilter(JTextField textField, boolean showToolTip) {
+		   makeStringFilter(textField, showToolTip);
+	   }
+	   
+	   public static void setStringFilter(JTextField textField) {
+		   makeStringFilter(textField, false);
+	   }
+	   
+	   private static void makeStringFilter(JTextField textField, boolean showToolTip) {
+		   PlainDocument doc3 = (PlainDocument) textField.getDocument();
+		      doc3.setDocumentFilter(new StringFilter(textField, showToolTip));
+	   }
+	   
+	   private StringFilter(JTextField textField, boolean showToolTip) {
+		   this.textField = textField;
+		   this.showToolTip = showToolTip;
+	   }
+	
 	   @Override
 	   public void insertString(FilterBypass fb, int offset, String string,
 	         AttributeSet attr) throws BadLocationException {
@@ -18,7 +42,7 @@ public class StringFilter extends DocumentFilter {
 	      if (test(sb.toString())) {
 	         super.insertString(fb, offset, string, attr);
 	      } else {
-	         // warn the user and don't allow the insert
+	    	  doShowToolTip(textField);
 	      }
 	   }
 
@@ -44,7 +68,7 @@ public class StringFilter extends DocumentFilter {
 	      if (test(sb.toString())) {
 	         super.replace(fb, offset, length, text, attrs);
 	      } else {
-	         // warn the user and don't allow the insert
+	    	  doShowToolTip(textField);
 	      }
 
 	   }
@@ -62,8 +86,12 @@ public class StringFilter extends DocumentFilter {
 	      else if (test(sb.toString())) {
 	         super.remove(fb, offset, length);
 	      } else {
-	         // warn the user and don't allow the insert
+	    	  doShowToolTip(textField);
 	      }
-
+	   }
+	   
+	   private void doShowToolTip(JTextField textField) {
+		   if(showToolTip)
+	        	 showTooltip(textField);
 	   }
 	}

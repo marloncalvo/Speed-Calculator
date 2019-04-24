@@ -2,7 +2,6 @@ package frames;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.PlainDocument;
 
 import ft_project.Controller;
 import utils.IntFilter;
@@ -88,6 +87,7 @@ public class MainFrame extends Frame{
 		
 		textF_Name = new JTextField();
 		textF_Name.setName("name");
+		textF_Name.setToolTipText("Please enter a nickname!");
 		GridBagConstraints gbc_textF_Name = new GridBagConstraints();
 		gbc_textF_Name.insets = new Insets(0, 0, 5, 0);
 		gbc_textF_Name.fill = GridBagConstraints.HORIZONTAL;
@@ -95,8 +95,7 @@ public class MainFrame extends Frame{
 		gbc_textF_Name.gridy = 0;
 		InfoPane.add(textF_Name, gbc_textF_Name);
 		textF_Name.setColumns(10);
-		PlainDocument doc3 = (PlainDocument) textF_Name.getDocument();
-	      doc3.setDocumentFilter(new StringFilter());
+		StringFilter.setStringFilter(textF_Name);
 		
 		JLabel lblNumberOfProblems = new JLabel("Number of Problems:");
 		GridBagConstraints gbc_lblNumberOfProblems = new GridBagConstraints();
@@ -107,15 +106,14 @@ public class MainFrame extends Frame{
 		
 		textF_NumProb = new JTextField();
 		textF_NumProb.setName("num_problems");
+		textF_NumProb.setToolTipText("Number of questions to show. Please enter a number 1 - 100.");
 		GridBagConstraints gbc_textF_NumProb = new GridBagConstraints();
 		gbc_textF_NumProb.insets = new Insets(0, 0, 5, 0);
 		gbc_textF_NumProb.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textF_NumProb.gridx = 3;
 		gbc_textF_NumProb.gridy = 1;
 		InfoPane.add(textF_NumProb, gbc_textF_NumProb);
-		textF_NumProb.setColumns(10);
-		PlainDocument doc = (PlainDocument) textF_NumProb.getDocument();
-	      doc.setDocumentFilter(new IntFilter());
+		IntFilter.setIntFilter(textF_NumProb, 100, true);
 		
 		JLabel lblNumberOfDigits = new JLabel("Number of Digits");
 		GridBagConstraints gbc_lblNumberOfDigits = new GridBagConstraints();
@@ -126,15 +124,15 @@ public class MainFrame extends Frame{
 		
 		textF_NumDig = new JTextField();
 		textF_NumDig.setName("num_digits");
+		textF_NumDig.setToolTipText("Number of digits for numbers. Please enter a number 1 - 6.");
 		GridBagConstraints gbc_textF_NumDig = new GridBagConstraints();
 		gbc_textF_NumDig.insets = new Insets(0, 0, 5, 0);
 		gbc_textF_NumDig.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textF_NumDig.gridx = 3;
 		gbc_textF_NumDig.gridy = 2;
 		InfoPane.add(textF_NumDig, gbc_textF_NumDig);
-		textF_NumDig.setColumns(10);
-		PlainDocument doc2 = (PlainDocument) textF_NumDig.getDocument();
-	      doc2.setDocumentFilter(new IntFilter());
+		IntFilter.setIntFilter(textF_NumDig, 6, true);
+
 		
 		JLabel lblTypeOfOperation = new JLabel("Type of Operation:");
 		GridBagConstraints gbc_lblTypeOfOperation = new GridBagConstraints();

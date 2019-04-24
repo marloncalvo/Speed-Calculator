@@ -14,6 +14,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Component;
+import java.awt.Font;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -47,8 +49,6 @@ public class RankingFrame extends Frame {
 		panel_1.add(lblNewLabel);
 		lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		
-		
 		JPanel panel = new JPanel();
 		panel_1.add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
@@ -70,18 +70,23 @@ public class RankingFrame extends Frame {
 		String[] records = rank.toString().split("\n");
 		int i = 0;
 		for(String record : records) {
+			
+			//constraints.insets = new Insets(10, 30, 10, 20);
 			String[] a = record.split("\\s+");
 			JLabel lblNewLabel_1 = new JLabel(a[0]);
+			lblNewLabel_1.setFont(new Font("Monospace", Font.BOLD, 14));
 			GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 			gbc_lblNewLabel_1.fill = GridBagConstraints.BOTH;
-			gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
+			gbc_lblNewLabel_1.insets = new Insets(10, 20, 10, 20);
 			gbc_lblNewLabel_1.gridx = 0;
 			gbc_lblNewLabel_1.gridy = i;
 			panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
 			
 			JLabel lblNewLabel_2 = new JLabel(a[1]);
+			lblNewLabel_2.setFont(new Font("Monospace", Font.BOLD, 14));
 			GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 			gbc_lblNewLabel_2.fill = GridBagConstraints.BOTH;
+			gbc_lblNewLabel_2.insets = new Insets(10, 20, 10, 20);
 			gbc_lblNewLabel_2.gridx = 1;
 			gbc_lblNewLabel_2.gridy = i;
 			panel.add(lblNewLabel_2, gbc_lblNewLabel_2);

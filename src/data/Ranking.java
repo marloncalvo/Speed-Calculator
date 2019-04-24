@@ -10,6 +10,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import utils.FileUtils;
+
 public class Ranking {
 	private static final String SAVE_LOCATION = User.SAVE_LOC + "rankings.save";
 	private static final int NAME = 0;
@@ -28,14 +30,7 @@ public class Ranking {
 	}
 	
 	private Ranking() {
-		rankingsFile = new File(SAVE_LOCATION);
-		
-		try {
-			rankingsFile.createNewFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		rankingsFile = new File(FileUtils.makeFile(SAVE_LOCATION));
 	}
 	
 	public void addEntry(User user) {
@@ -140,6 +135,7 @@ public class Ranking {
 			scan = new Scanner(rankingsFile);
 		} catch (IOException e) {
 			e.printStackTrace();
+			return;
 		}
 		
 		if(scan.hasNextLine()) {

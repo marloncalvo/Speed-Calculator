@@ -1,20 +1,18 @@
 package data;
 
 import java.io.Serializable;
-import java.security.SecureRandom;
 import java.time.Duration;
 
+import utils.NumberUtils;
+
 public class Question implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	
 	
 	private int num1;
 	private int num2;
-	private double correct_answer;
-	private double user_answer;
+	private long correct_answer;
+	private long user_answer;
 	private String op;
 	private Duration time;
 	
@@ -50,7 +48,7 @@ public class Question implements Serializable {
 		}
 	}
 	
-	public void setUserAnswer(double user_answer) {
+	public void setUserAnswer(long user_answer) {
 		this.user_answer = user_answer;
 	}
 	
@@ -58,11 +56,11 @@ public class Question implements Serializable {
 		this.time = time;
 	}
 	
-	public double getNum1() {
+	public int getNum1() {
 		return num1;
 	}
 	
-	public double getNum2() {
+	public int getNum2() {
 		return num2;
 	}
 	
@@ -81,17 +79,17 @@ public class Question implements Serializable {
 			return false;
 	}
 	
-	public double getUserAnswer() {
+	public long getUserAnswer() {
 		return user_answer;
 	}
 	
-	public double getCorrectAnswer() {
+	public long getCorrectAnswer() {
 		return correct_answer;
 	}
 	
 	private void doRandom() {
-		SecureRandom rand = new SecureRandom();
-		int n = rand.nextInt(4);
+
+		int n = NumberUtils.generateRandomInt(3);
 		
 		switch(n) {
 		case 0:
@@ -119,6 +117,49 @@ public class Question implements Serializable {
 				break;
 			}
 		}
+	}
+	
+	public boolean isAdd() {
+		if(getArithOpInt() == 0)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean isSub() {
+		if(getArithOpInt() == 1)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean isMul() {
+		if(getArithOpInt() == 2)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean isDiv() {
+		if(getArithOpInt() == 3)
+			return true;
+		else
+			return false;
+	}
+	
+	public int getArithOpInt() {
+		switch(this.op) {
+		case ADD:
+			return 0;
+		case SUB:
+			return 1;
+		case MUL:
+			return 2;
+		case DIV:
+			return 3;
+		}
+		
+		return -999;
 	}
 	
 	private void add() {
