@@ -21,6 +21,8 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.awt.event.ActionEvent;
 
@@ -42,7 +44,7 @@ public class MainFrame extends Frame{
 	
 	private MainFrame() {
 		MainPane = new JPanel();
-		MainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		MainPane.setBorder(new EmptyBorder(5, 100, 5, 100));
 		GridBagLayout gbl_MainPane = new GridBagLayout();
 		gbl_MainPane.columnWidths = new int[]{0, 0};
 		gbl_MainPane.rowHeights = new int[]{0, 0, 0, 0};
@@ -192,7 +194,9 @@ public class MainFrame extends Frame{
 		gbc_btnBegin.gridy = 0;
 		ButtonPane.add(btnBegin, gbc_btnBegin);
 		
-		JLabel lblHelp = new JLabel("For Help, Please see Manual");
+		JLabel lblHelp = new JLabel("<HTML>For information about me, please click <U>here</U>.</HTML>");
+		
+		lblHelp.addMouseListener(new labelMouseListener());
 		GridBagConstraints gbc_lblHelp = new GridBagConstraints();
 		gbc_lblHelp.gridwidth = 2;
 		gbc_lblHelp.insets = new Insets(10, 0, 0, 5);
@@ -211,14 +215,60 @@ public class MainFrame extends Frame{
 	
 	public HashMap<Object, Object> getSessionData() {
 		HashMap<Object, Object> data = new HashMap<>();
-		data.put(textF_Name.getName(), textF_Name.getText());
-		data.put(textF_NumProb.getName(), textF_NumProb.getText());
-		data.put(textF_NumDig.getName(), textF_NumDig.getText());
-		data.put(cmbBox_ArithOps.getName(), cmbBox_ArithOps.getSelectedItem().toString());
+		data.put(Controller.NAME_KEY, textF_Name.getText());
+		data.put(Controller.NUM_PROBLEMS_KEY, textF_NumProb.getText());
+		data.put(Controller.NUM_DIGS_KEY, textF_NumDig.getText());
+		data.put(Controller.OPERATOR_KEY, cmbBox_ArithOps.getSelectedItem().toString());
 		return data;
 	}
 	
 	public JPanel getContentPane() {
 		return MainPane;
 	}
+}
+
+class labelMouseListener implements MouseListener {
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+        JOptionPane.showMessageDialog(null, aboutMe);
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private final String aboutMe = "<HTML><p>Hello,<br>My name is Marlon Calvo, and I am the developer for this game.<br>"
+			+ "This program was written in Java 8 utilizing the Swing framework.<br>"
+			+ "I have been working on this project for multiple days now and I wish<br>"
+			+ "that you have enjoyed this game.<br>"
+			+ "Prior to making this game, I had extensive GUI development experience through my intership.<br>"
+			+ "I enjoy the challenge of making a exentsible, stable, and untuitive design for users.<br>"
+			+ "But, I find creating algorithms and improving run time for programs to be much more satisfying.<br>"
+			+ "So if you have any suggestions as to where I can gain more real-world experience in that domain,<br>"
+			+ " I'd greatly appreciate it.<br>"
+			+ "I'm always looking to improve! :)<br><br>"
+			+ "Thanks,<br>"
+			+ "Marlon Calvo (Computer Science Undergrad at UCF)<br></HTML>";
 }

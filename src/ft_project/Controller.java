@@ -22,6 +22,11 @@ public class Controller {
 	
 	private static FrameController frameController;
 	
+	public static final String NAME_KEY = "name";
+	public static final String NUM_PROBLEMS_KEY = "num_problems";
+	public static final String NUM_DIGS_KEY = "num_digits";
+	public static final String OPERATOR_KEY = "op";
+	
 	public static void main(String[] args) {
 		init();
 	}
@@ -54,27 +59,39 @@ public class Controller {
 	@SuppressWarnings("unused")
 	private static void MainFrame(Frame frame) {
 		HashMap<Object, Object> data = frame.getSessionData();
-		String name = (String) data.get("name");
-		
-		User user = null;
-		if(FileUtils.checkFileExists(User.getUserLocation(name))) {
-			try {
-				user = User.readUserData(name);
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
+		switchFrame(frames.ConfirmationFrame.createConfirmationFrame((String) data.get(NAME_KEY)
+				, Integer.valueOf((String)data.get(NUM_PROBLEMS_KEY)), 
+					Integer.valueOf((String)data.get(NUM_DIGS_KEY)), 
+					(String)data.get(OPERATOR_KEY)));
+	}
+	
+	@SuppressWarnings("unused")
+	private static void ConfirmationFrame(Frame frame) {
+		if(frame.isComplete()) {
+			HashMap<Object, Object> data = frame.getSessionData();
+			String name = (String) data.get(NAME_KEY);
+			
+			User user = null;
+			if(FileUtils.checkFileExists(User.getUserLocation(name))) {
+				try {
+					user = User.readUserData(name);
+				} catch (ClassNotFoundException | IOException e) {
+					e.printStackTrace();
+				}
 			}
+			else {
+				user = new User(name);
+			}
+			
+			Session session = new Session(user, (int)data.get(NUM_PROBLEMS_KEY), (int)data.get(NUM_DIGS_KEY), (String)data.get(OPERATOR_KEY));
+			Thread t = new Thread(() -> {
+				initGame(frame, session);
+			});
+			
+			t.start();
 		}
-		else {
-			user = new User(name);
-		}
-		
-		Session session = new Session(user, Integer.valueOf((String) data.get("num_problems")), Integer.valueOf((String)data.get("num_digits")), (String)data.get("op"));
-		Thread t = new Thread(() -> {
-			initGame(frame, session);
-		});
-		
-		t.start();
-
+		else
+			switchFrame(MainFrame.createMainFrame());
 	}
 	
 	private static void initGame(Frame frame, Session session) {

@@ -134,7 +134,9 @@ public class UserHistroyFrame extends Frame {
 	private void addQuestionsToTable(ArrayList<Question> questions) {
 		model.setRowCount(0);
 		for(Question q : questions) {
-			model.addRow(new Object[] {(model.getRowCount()+1), q.getNum1(), q.getArithOp(), q.getNum2(), q.getCorrectAnswer(), q.getUserAnswer(), q.getTime()});
+			model.addRow(new Object[] {(model.getRowCount()+1), q.getNum1(), 
+					q.getArithOp(), q.getNum2(), q.getCorrectAnswer(), 
+					q.getUserAnswer(), (q.getTime().toString().replace("PT", "").replace("S", ""))});
 		}
 		
 		table.setModel(model);
