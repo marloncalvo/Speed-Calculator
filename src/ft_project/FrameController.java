@@ -19,18 +19,3 @@ public class FrameController extends JFrame{
 		return frame;
 	}
 }
-
-
-//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//setBounds(100, 100, 450, 300);
-
-//EventQueue.invokeLater(new Runnable() {
-//	public void run() {
-//		try {
-//			MainFrame frame = new MainFrame();
-//			frame.setVisible(true);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-//});

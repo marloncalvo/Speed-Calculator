@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
-import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import data.Session;
@@ -22,7 +21,6 @@ import utils.FileUtils;
 public class Controller {
 	
 	private static FrameController frameController;
-	private JPanel mainPane;
 	
 	public static void main(String[] args) {
 		init();

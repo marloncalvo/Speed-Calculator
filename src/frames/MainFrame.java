@@ -115,7 +115,7 @@ public class MainFrame extends Frame{
 		InfoPane.add(textF_NumProb, gbc_textF_NumProb);
 		IntFilter.setIntFilter(textF_NumProb, 100, true);
 		
-		JLabel lblNumberOfDigits = new JLabel("Number of Digits");
+		JLabel lblNumberOfDigits = new JLabel("Number of Digits:");
 		GridBagConstraints gbc_lblNumberOfDigits = new GridBagConstraints();
 		gbc_lblNumberOfDigits.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNumberOfDigits.gridx = 1;
