@@ -1,3 +1,7 @@
+# NOTE
+Very old code :)
+One of my beginning GUI programs, learning basics of OOP.
+
 #Game created by Marlon Calvo
 This is a game developed to help improve your mental calculations.
 
